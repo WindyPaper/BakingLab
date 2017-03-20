@@ -273,4 +273,7 @@
       <Filter>SampleFramework11\External DLLs</Filter>
     </CustomBuild>
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="LightMapRasterization.hlsl" />
+  </ItemGroup>
 </Project>

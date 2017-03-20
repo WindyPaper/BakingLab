@@ -271,6 +271,58 @@ static void SaveEXRScreenshot(HWND parentWindow, ID3D11ShaderResourceView* scree
     }
 }
 
+static void SaveLightMap(HWND parentWindow, ID3D11ShaderResourceView* tex)
+{
+	// Read the texture data, and apply the inverse exposure scale
+	/*ID3D11DevicePtr device;
+	screenSRV->GetDevice(&device);
+
+	TextureData<Float4> textureData;
+	GetTextureData(device, screenSRV, textureData);
+
+	const uint64 numTexels = textureData.Texels.size();
+	for (uint64 i = 0; i < numTexels; ++i)
+	{
+		textureData.Texels[i] *= 1.0f / FP16Scale;
+		textureData.Texels[i] = Float4::Clamp(textureData.Texels[i], 0.0f, FP16Max);
+	}*/
+
+	wchar currDirectory[MAX_PATH] = { 0 };
+	GetCurrentDirectory(ArraySize_(currDirectory), currDirectory);
+
+	wchar filePath[MAX_PATH] = { 0 };
+
+	OPENFILENAME ofn;
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = parentWindow;
+	ofn.lpstrFile = filePath;
+	ofn.nMaxFile = ArraySize_(filePath);
+	ofn.lpstrFilter = L"All Files (*.*)\0*.*\0JPG Files (*.jpg)\0*.jpg\0";
+	ofn.nFilterIndex = 2;
+	ofn.lpstrFileTitle = nullptr;
+	ofn.nMaxFileTitle = 0;
+	ofn.lpstrInitialDir = nullptr;
+	ofn.lpstrTitle = L"Save LightMap As..";
+	ofn.lpstrDefExt = L"jpg";
+	ofn.Flags = OFN_OVERWRITEPROMPT;
+	bool succeeded = GetSaveFileName(&ofn) != 0;
+	SetCurrentDirectory(currDirectory);
+
+	if (succeeded)
+	{
+		try
+		{
+			SaveTextureAsPNG(tex, filePath); // modify to jpg format.
+		}
+		catch (Exception e)
+		{
+			std::wstring errorString = L"Error occured while saving lightmap as an JPG file:\n" + e.GetMessage();
+			MessageBox(parentWindow, errorString.c_str(), L"Error", MB_OK | MB_ICONERROR);
+		}
+	}
+}
+
 // Bakes lookup textures for computing environment specular from radiance encoded as spherical harmonics.
 static void GenerateSHSpecularLookupTextures(ID3D11Device* device)
 {
@@ -622,6 +674,11 @@ void BakingLab::Render(const Timer& timer)
 
     if(AppSettings::SaveEXRScreenshot)
         SaveEXRScreenshot(window.GetHwnd(), colorResolveTarget.SRView);
+
+	if (AppSettings::SaveLightMap)
+	{
+		SaveLightMap(window.GetHwnd(), status.LightMap);
+	}
 
     {
         // Kick off post-processing

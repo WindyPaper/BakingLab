@@ -322,8 +322,10 @@ void SaveTextureAsPNG(ID3D11Resource* texture, const wchar* filePath)
     ScratchImage scratchImage;
     DXCall(CaptureTexture(device, context, texture, scratchImage));
 
-    DXCall(SaveToWICFile(scratchImage.GetImages(), scratchImage.GetImageCount(), WIC_FLAGS_NONE,
-                         GetWICCodec(WIC_CODEC_PNG), filePath));
+    /*DXCall(SaveToWICFile(scratchImage.GetImages(), scratchImage.GetImageCount(), WIC_FLAGS_NONE,
+                         GetWICCodec(WIC_CODEC_PNG), filePath));*/
+
+	DXCall(SaveToWICFile(*scratchImage.GetImages(), DirectX::WIC_FLAGS_NONE, GUID_ContainerFormatJpeg, filePath, NULL));
 }
 
 // Utility function to map a XY + Side coordinate to a direction vector
