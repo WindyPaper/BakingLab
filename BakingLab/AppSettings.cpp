@@ -268,7 +268,7 @@ namespace AppSettings
     Button LoadLightSettings;
     Button SaveEXRScreenshot;
     BoolSetting ShowSunIntensity;
-	Button SaveLightMap;
+    Button SaveLightMap;
 
     ConstantBuffer<AppSettingsCBuffer> CBuffer;
 
@@ -584,8 +584,8 @@ namespace AppSettings
         ShowSunIntensity.Initialize(tweakBar, "ShowSunIntensity", "Debug", "Show Sun Intensity", "", false);
         Settings.AddSetting(&ShowSunIntensity);
 
-		SaveLightMap.Initialize(tweakBar, "SaveLightMap", "Debug", "Save LightMap", "Save the lightmap as PNG format.");
-		Settings.AddSetting(&SaveLightMap);
+        SaveLightMap.Initialize(tweakBar, "SaveLightMap", "Debug", "Save LightMap", "Save LightMap in JPG format");
+        Settings.AddSetting(&SaveLightMap);
 
         TwHelper::SetOpened(tweakBar, "Sun Light", true);
 

@@ -813,5 +813,9 @@ public class Settings
 
         [UseAsShaderConstant(false)]
         bool ShowSunIntensity = false;
+
+        [DisplayName("Save LightMap")]
+        [HelpText("Save LightMap in JPG format")]
+        Button SaveLightMap;
     }
 }

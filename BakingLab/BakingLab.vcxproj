@@ -251,7 +251,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="LightMapRasterization.hlsl" />
+    <None Include="LightMapRasterization.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -338,7 +338,7 @@ namespace AppSettings
     extern Button LoadLightSettings;
     extern Button SaveEXRScreenshot;
     extern BoolSetting ShowSunIntensity;
-	extern Button SaveLightMap;
+    extern Button SaveLightMap;
 
     struct AppSettingsCBuffer
     {
